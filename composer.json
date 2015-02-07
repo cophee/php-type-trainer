@@ -2,7 +2,7 @@
     "name": "mpyw/php-type-trainer",
     "type": "project",
     "description": "A simple CLI English type trainer using articles in Wikipedia.",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "license": "MIT",
     "keywords": [
         "English",

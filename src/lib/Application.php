@@ -112,10 +112,11 @@ final class Application {
                     array('', '', ' '),
                     $node->nodeValue
                 ));
-                foreach (explode('.', $value) as $sentence) {
-                    $sentence = trim($sentence) . '.';
+                $regex = '/[A-Z][a-z]{1,}+ [A-Z]\. [A-Z][a-z]{1,}+(*SKIP)(*FAIL)|(?<![DSJM]r\.)(?<!Mrs\.)(?<=[.?!])(?!(?:\S|\s[a-z]))/';
+                foreach (preg_split($regex, $value, -1, PREG_SPLIT_NO_EMPTY) as $sentence) {
+                    $sentence = trim($sentence);
                     $wc = str_word_count($sentence);
-                    if (preg_match('/\A[-,.a-z0-9 ]{8,65}\z/i', $sentence) && $wc >= 4 && $wc <= 25) {
+                    if (preg_match('/\A[-,.a-z0-9 ]{8,65}(?<=[.!?])\z/i', $sentence) && $wc >= 4 && $wc <= 25) {
                         Util::writeln('[ Sentence ] ' . $sentence);
                         $dt = date_create('now', timezone_open(self::$timeZone));
                         $db->insertSentence($sentence, $dt->format('Y-m-d H:i:s'));
