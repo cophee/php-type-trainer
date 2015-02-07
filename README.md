@@ -19,7 +19,7 @@ Installation
 ### 直接Pharアーカイブをダウンロードする
 
 1. [build/PhpTypeTrainer.phar](https://github.com/mpyw/php-type-trainer/blob/master/build/PhpTypeTrainer.phar?raw=true) をクリックしてダウンロード
-2. `php build/PhpTypeTrainer.phar` で起動
+2. `php PhpTypeTrainer.phar` で起動
 
 ### GitHubからGitを用いてリポジトリのクローンを作成する
 
