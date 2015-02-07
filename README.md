@@ -14,11 +14,12 @@ Summary
 Installation
 ------------
 
-以下のいずれかを選択してください
+コマンドライン版のPHPが実行可能な環境にて、以下のいずれかに従って起動してください
 
 ### 直接Pharアーカイブをダウンロードする
 
-[build/PhpTypeTrainer.phar](https://github.com/mpyw/php-type-trainer/blob/master/build/PhpTypeTrainer.phar?raw=true) をクリックしてダウンロード
+1. [build/PhpTypeTrainer.phar](https://github.com/mpyw/php-type-trainer/blob/master/build/PhpTypeTrainer.phar?raw=true) をクリックしてダウンロード
+2. `php build/PhpTypeTrainer.phar` で起動
 
 ### GitHubからGitを用いてリポジトリのクローンを作成する
 
