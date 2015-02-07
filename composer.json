@@ -1,0 +1,31 @@
+{
+    "name": "mpyw/php-type-trainer",
+    "type": "project",
+    "description": "A simple CLI English type trainer using articles in Wikipedia.",
+    "version": "0.1.0",
+    "license": "MIT",
+    "keywords": [
+        "English",
+        "Type",
+        "Trainer"
+    ],
+    "authors": [
+        {
+            "name": "CertaiN",
+            "email": "ryosuke_i_628@yahoo.co.jp",
+            "homepage": "https://gravatar.com/mpyw",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-hash": "*",
+        "lib-pcre": "*"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "mpyw\\PhpTypeTrainer\\lib\\": "src/lib/"
+        }
+    }
+}
