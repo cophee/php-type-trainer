@@ -16,16 +16,16 @@ Installation
 
 以下のいずれかを選択してください
 
-# 直接Pharアーカイブをダウンロードする
+### 直接Pharアーカイブをダウンロードする
 
 [build/PhpTypeTrainer.phar](https://github.com/mpyw/php-type-trainer/blob/master/build/PhpTypeTrainer.phar) をクリックしてダウンロード
 
-# GitHubからGitを用いてリポジトリのクローンを作成する
+### GitHubからGitを用いてリポジトリのクローンを作成する
 
 1. `git clone git://github.com/mpyw/php-type-trainer.git`
 2. `php src/trainer.php` または `php build/PhpTypeTrainer.phar` で起動
 
-# PackagistからComposerを用いてインストールする
+### PackagistからComposerを用いてインストールする
 
 1. `composer init`
 2. Dependency設定時 `mpyw/php-type-trainer` を検索
