@@ -40,11 +40,11 @@ final class Application {
         }
         Util::writeln();
         Util::writeln(self::$captions['welcome']);
-        Util::writeln();
         $path = getcwd() . DIRECTORY_SEPARATOR . self::$sqliteFilename;
         if (!is_file($path) && !Util::promptYN("Create {$path} ? [Y/N]: ")) {
             exit(0);
         }
+        Util::writeln();
         $db = new DB($path);
         try {
             while (true) {
@@ -152,7 +152,7 @@ final class Application {
             $xpath = new \DOMXPath($dom);
             foreach ($xpath->query('//div[@id="mw-content-text"]/p[1]') as $node) {
                 $value = trim(preg_replace(
-                    array('/\(.*?\)|\[.*?\]|\{.*?\}|\<.*?\>|"|(?<=\d),(?=\d{3})/s', '/\s++(?=[^a-z\d])/i', '/\s++/'),
+                    array('/\(.*?\)|\[.*?\]|\{.*?\}|\<.*?\>|(?<=\d),(?=\d{3})/s', '/\s++(?=[^a-z\d])/i', '/\s++/'),
                     array('', '', ' '),
                     $node->nodeValue
                 ));
