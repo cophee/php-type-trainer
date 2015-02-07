@@ -5,7 +5,7 @@ namespace mpyw\PhpTypeTrainer\lib;
 final class DB {
     
     private static $maxStoredSentences = 1000;
-    private static $maxStoredRankings = 5;
+    private static $maxStoredRanking = 10;
     
     private $pdo;
     private $stmt;
@@ -25,8 +25,9 @@ final class DB {
             CREATE TABLE IF NOT EXISTS
             ranking(
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                kpm INTEGER NOT NULL,
+                epm INTEGER NOT NULL,
                 score INTEGER NOT NULL,
-                acc INTEGER NOT NULL,
                 date TEXT NOT NULL
             )
         ');
@@ -54,15 +55,16 @@ final class DB {
         $stmt->execute();
     }
     
-    public function insertScore($score, $acc, $date) {
+    public function insertScore($kpm, $epm, $score, $date) {
         $this->pdo->beginTransaction();
         try {
             $stmt = $this->prepare('
-                INSERT INTO ranking(score, acc, date)
-                VALUES (:score, :acc, :date)
+                INSERT INTO ranking(kpm, epm, score, date)
+                VALUES (:kpm, :epm, :score, :date)
             ');
-            $stmt->bindValue(':score', $score);
-            $stmt->bindValue(':acc', $acc, \PDO::PARAM_INT);
+            $stmt->bindValue(':kpm', $kpm, \PDO::PARAM_INT);
+            $stmt->bindValue(':epm', $epm, \PDO::PARAM_INT);
+            $stmt->bindValue(':score', $score, \PDO::PARAM_INT);
             $stmt->bindValue(':date', $date);
             $stmt->execute();
             $id = $this->pdo->lastInsertId();
@@ -71,7 +73,7 @@ final class DB {
                     SELECT id FROM ranking ORDER BY score DESC, date ASC LIMIT :limit
                 )
             ');
-            $stmt->bindValue(':limit', self::$maxStoredRankings);
+            $stmt->bindValue(':limit', self::$maxStoredRanking);
             $stmt->execute();
             $this->pdo->commit();
             return $id;
@@ -81,6 +83,18 @@ final class DB {
         }
     }
     
+    public function clearStoredSentences() {
+        $this->pdo->exec('DELETE FROM sentence');
+    }
+    
+    public function clearScoreRanking() {
+        $this->pdo->exec('DELETE FROM ranking');
+    }
+    
+    public function getSentencesCount() {
+        return (int)$this->pdo->query('SELECT SUM(1) FROM sentence')->fetchColumn();
+    }
+    
     public function getRandomSentences($limit) {
         $stmt = $this->prepare('SELECT text FROM sentence ORDER BY RANDOM() LIMIT :limit');
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
@@ -88,10 +102,10 @@ final class DB {
         return $stmt->fetchAll(\PDO::FETCH_COLUMN, 0);
     }
     
-    public function getRankings() {
+    public function getRanking() {
         return $this->pdo->query('
-            SELECT id, score, acc, date FROM ranking
-            ORDER BY score DESC, date ASC
+            SELECT id, kpm, round(kpm / 5) AS wpm, epm, score, date FROM ranking
+            ORDER BY score DESC, kpm DESC, epm ASC, date ASC
         ')->fetchAll();
     }
     
