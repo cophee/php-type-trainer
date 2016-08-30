@@ -10,7 +10,6 @@ if (ini_get('phar.readonly') || ini_get('phar.require_hash')) {
     exit(1);
 }
 
-$version = json_decode(file_get_contents(__DIR__ . '/composer.json'))->version;
 $autoloader = "spl_autoload_register(function (\$class) {
     if (preg_match('/^mpyw\\\\\\\\PhpTypeTrainer\\\\\\\\lib(\\\\\\\\.+?)\$/', \$class, \$m)) {
         \$path = str_replace('\\\\', DIRECTORY_SEPARATOR, 'phar://' . __FILE__ . \$m[1] . '.php');
@@ -25,11 +24,11 @@ if (is_file($pharpath)) {
     unlink($pharpath);
 }
 $phar = new \Phar($pharpath, 0, basename($pharpath));
-$phar->setStub("<?php 
+$phar->setStub("<?php
 
-/* 
- * PHP Type Trainer, Version $version
- * 
+/*
+ * PHP Type Trainer
+ *
  * @author  mpyw
  * @github  https://github.com/mpyw/php-type-trainer
  * @license MIT
