@@ -2,8 +2,8 @@
 
 namespace mpyw\PhpTypeTrainer\lib;
 
-final class Application {
-    
+final class Application
+{
     private static $maxRound = 10;
     private static $sqliteFilename = 'PhpTypeTrainerDb.db';
     private static $wikipediaUrl = 'http://simple.wikipedia.org/wiki/Special:Randompage';
@@ -29,8 +29,9 @@ final class Application {
         9 => 'Clear score ranking',
         0 => 'Quit',
     );
-    
-    private static function test() {
+
+    private static function test()
+    {
         $intersects = Util::intersect(self::$captions, array('expected', 'actual'));
         $captions   = Util::appendWhiteSpaces(array_merge(array('blanks' => ''), $intersects));
         $match      = DPMatcher::match(Util::prompt("$captions[expected] "), Util::prompt("$captions[actual] "));
@@ -40,8 +41,9 @@ final class Application {
         Util::writeln(self::$captions[!$match['errcount'] ? 'good' : 'bad']);
         Util::writeln();
     }
-    
-    public static function run() {
+
+    public static function run()
+    {
         if (PHP_SAPI !== 'cli') {
             header('Content-Type: text/plain; charset=utf-8', true, 400);
             Util::errorln('This software requries PHP-CLI environment.');
@@ -79,8 +81,9 @@ final class Application {
             exit(1);
         }
     }
-    
-    private static function fetchAndStoreNewSentencesInWikipedia(DB $db) {
+
+    private static function fetchAndStoreNewSentencesInWikipedia(DB $db)
+    {
         Util::writeln('How many sentences are to be downloaded?');
         Util::writeln('NOTE: Old sentences over 1000 are automatically deleted.');
         $max = Util::promptNumber('(0 ~ 1000): ', 0, 1000);
@@ -130,12 +133,14 @@ final class Application {
         Util::writeln('Done.');
         Util::writeln();
     }
-    
-    private static function showTheNumberOfStoredSentences(DB $db) {
+
+    private static function showTheNumberOfStoredSentences(DB $db)
+    {
         Util::writeln("The number of stored sentences: {$db->getSentencesCount()}");
     }
-    
-    private static function startTraining(DB $db) {
+
+    private static function startTraining(DB $db)
+    {
         $texts = $db->getRandomSentences(self::$maxRound);
         if (!isset($texts[self::$maxRound - 1])) {
             Util::errorln('There are not enough sentences in the database.');
@@ -190,8 +195,9 @@ final class Application {
             }
         }
     }
-    
-    private static function viewScoreRanking(DB $db) {
+
+    private static function viewScoreRanking(DB $db)
+    {
         Util::writeln(' # | SCORE | KPM | WPM | EPM | DateTime');
         Util::writeln('--------------------------------------------------');
         foreach ($db->getRanking() as $i => $row) {
@@ -201,24 +207,26 @@ final class Application {
             ));
         }
     }
-    
-    private static function clearStoredSentences(DB $db) {
+
+    private static function clearStoredSentences(DB $db)
+    {
         if (Util::promptYN('Really clear stored sentences? [Y/N]: ')) {
             $db->clearStoredSentences();
         }
     }
-    
-    private static function clearScoreRanking(DB $db) {
+
+    private static function clearScoreRanking(DB $db)
+    {
         if (Util::promptYN('Really clear score ranking? [Y/N]: ')) {
             $db->clearScoreRanking();
         }
     }
-    
-    private static function quit() {
+
+    private static function quit()
+    {
         if (Util::promptYN('Really quit? [Y/N]: ')) {
             Util::writeln();
             exit(0);
         }
     }
-    
 }

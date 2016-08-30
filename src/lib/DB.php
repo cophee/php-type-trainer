@@ -2,22 +2,24 @@
 
 namespace mpyw\PhpTypeTrainer\lib;
 
-final class DB {
-    
+final class DB
+{
     private static $maxStoredSentences = 1000;
     private static $maxStoredRanking = 10;
-    
+
     private $pdo;
     private $stmt;
-    
-    private function prepare($sql) {
+
+    private function prepare($sql)
+    {
         if (!isset($this->stmt[$sql])) {
             $this->stmt[$sql] = $this->pdo->prepare($sql);
         }
         return $this->stmt[$sql];
     }
-    
-    public function __construct($filename) {
+
+    public function __construct($filename)
+    {
         $this->pdo = new \PDO("sqlite:$filename");
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
@@ -40,8 +42,9 @@ final class DB {
             )
         ');
     }
-    
-    public function insertSentence($text, $date) {
+
+    public function insertSentence($text, $date)
+    {
         $stmt = $this->prepare('REPLACE INTO sentence(text, date) VALUES(:text, :date)');
         $stmt->bindValue(':text', $text);
         $stmt->bindValue(':date', $date);
@@ -54,8 +57,9 @@ final class DB {
         $stmt->bindValue(':limit', self::$maxStoredSentences, \PDO::PARAM_INT);
         $stmt->execute();
     }
-    
-    public function insertScore($kpm, $epm, $score, $date) {
+
+    public function insertScore($kpm, $epm, $score, $date)
+    {
         $this->pdo->beginTransaction();
         try {
             $stmt = $this->prepare('
@@ -82,31 +86,35 @@ final class DB {
             throw $e;
         }
     }
-    
-    public function clearStoredSentences() {
+
+    public function clearStoredSentences()
+    {
         $this->pdo->exec('DELETE FROM sentence');
     }
-    
-    public function clearScoreRanking() {
+
+    public function clearScoreRanking()
+    {
         $this->pdo->exec('DELETE FROM ranking');
     }
-    
-    public function getSentencesCount() {
+
+    public function getSentencesCount()
+    {
         return (int)$this->pdo->query('SELECT SUM(1) FROM sentence')->fetchColumn();
     }
-    
-    public function getRandomSentences($limit) {
+
+    public function getRandomSentences($limit)
+    {
         $stmt = $this->prepare('SELECT text FROM sentence ORDER BY RANDOM() LIMIT :limit');
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_COLUMN, 0);
     }
-    
-    public function getRanking() {
+
+    public function getRanking()
+    {
         return $this->pdo->query('
             SELECT id, kpm, round(kpm / 5) AS wpm, epm, score, date FROM ranking
             ORDER BY score DESC, kpm DESC, epm ASC, date ASC
         ')->fetchAll();
     }
-    
 }

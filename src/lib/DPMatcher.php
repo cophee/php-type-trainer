@@ -2,20 +2,23 @@
 
 namespace mpyw\PhpTypeTrainer\lib;
 
-final class DPMatcher {
-    
+final class DPMatcher
+{
     private static $errorChars = array(
         'inserted'    => 'I',
         'deleted'     => 'D',
         'substituted' => 'S',
         'mixed'       => '*',
     );
-    
-    private function __construct() { }
-    
-    public static function match($expected, $input) {
+
+    private function __construct()
+    {
+    }
+
+    public static function match($expected, $input)
+    {
         $ysize = strlen($expected);
-        $xsize = strlen($input); 
+        $xsize = strlen($input);
         $score = array(array(0));
         $vector = array(array(null));
         for ($y = 1; $y <= $ysize; ++$y) {
@@ -83,5 +86,4 @@ final class DPMatcher {
         }
         return $result;
     }
-    
 }
