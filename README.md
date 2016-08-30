@@ -1,8 +1,6 @@
 PHP Type Trainer
 ================
 
-Version: 0.3.1
-
 Summary
 -------
 
@@ -26,15 +24,6 @@ Installation
 1. `git clone git://github.com/mpyw/php-type-trainer.git`
 2. `php src/trainer.php` または `php build/PhpTypeTrainer.phar` で起動
 
-### PackagistからComposerを用いてインストールする
-
-1. `composer init`
-2. Dependency設定時 `mpyw/php-type-trainer` を検索
-3. `composer install`
-4. `php vendor/mpyw/php-type-trainer/src/trainer.php` または  
-`php vendor/mpyw/php-type-trainer/build/PhpTypeTrainer.phar` で起動
-
-
 Usage
 ------
 
@@ -48,5 +37,4 @@ Qiita記事書いたので一応載せておきます
 ToDo
 -----
 
-- 説明書書こうな
 - 正規表現で可能な限り高精度で英文一文を切り出そうと試行錯誤してたけど英語にピリオドで終わる省略形が多すぎてわりと妥協してるからいつか直す（直すとは言ってない）
