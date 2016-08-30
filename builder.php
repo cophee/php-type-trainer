@@ -30,7 +30,7 @@ $phar->setStub("<?php
 /* 
  * PHP Type Trainer, Version $version
  * 
- * @author  CertaiN
+ * @author  mpyw
  * @github  https://github.com/mpyw/php-type-trainer
  * @license MIT
  */

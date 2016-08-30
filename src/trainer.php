@@ -3,7 +3,7 @@
 /* 
  * PHP Type Trainer
  * 
- * @author  CertaiN
+ * @author  mpyw
  * @github  https://github.com/mpyw/php-type-trainer
  * @license MIT
  */
